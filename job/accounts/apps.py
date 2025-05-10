@@ -5,4 +5,5 @@ class AccountsConfig(AppConfig):
     name = 'accounts'
 
     def ready(self):
+        # This ensures signals.py gets loaded when the app starts
         import accounts.signals
