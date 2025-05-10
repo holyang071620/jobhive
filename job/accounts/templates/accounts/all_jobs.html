@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="job-listings">
+    <h2>All Job Listings</h2>
+    {% for job in jobs %}
+    <div class="job-card">
+        <h3>{{ job.job_title }} at {{ job.company_name }}</h3>
+        <p><strong>Location:</strong> {{ job.location }}</p>
+        <p><strong>Type:</strong> {{ job.get_employment_type_display }}</p>
+        <p><strong>Experience:</strong> {{ job.get_experience_level_display }}</p>
+        <small>Posted by <a href="{% url 'profile' job.posted_by.username %}">{{ job.posted_by.username }}</a></small>
+    </div>
+    {% empty %}
+    <p>No jobs available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

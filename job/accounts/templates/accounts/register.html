@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | JobHive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #54daa2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .register-container h2 {
+            margin-bottom: 24px;
+            color: #123456;
+        }
+
+        .form-error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #289cbc;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% if form.username.errors %}
+                <div class="form-error">{{ form.username.errors.0 }}</div>
+            {% endif %}
+            <input type="text" name="username" placeholder="Username" value="{{ form.username.value|default_if_none:'' }}" required>
+
+            {% if form.email.errors %}
+                <div class="form-error">{{ form.email.errors.0 }}</div>
+            {% endif %}
+            <input type="email" name="email" placeholder="Email address" value="{{ form.email.value|default_if_none:'' }}" required>
+
+            {% if form.address.errors %}
+                <div class="form-error">{{ form.address.errors.0 }}</div>
+            {% endif %}
+            <input type="text" name="address" placeholder="Address" value="{{ form.address.value|default_if_none:'' }}" required>
+
+            {% if form.contact.errors %}
+                <div class="form-error">{{ form.contact.errors.0 }}</div>
+            {% endif %}
+            <input type="text" name="contact" placeholder="Contact Number" value="{{ form.contact.value|default_if_none:'' }}" required>
+
+            {% if form.password1.errors %}
+                <div class="form-error">{{ form.password1.errors.0 }}</div>
+            {% endif %}
+            <input type="password" name="password1" placeholder="Password" required>
+
+            {% if form.password2.errors %}
+                <div class="form-error">{{ form.password2.errors.0 }}</div>
+            {% endif %}
+            <input type="password" name="password2" placeholder="Confirm Password" required>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>

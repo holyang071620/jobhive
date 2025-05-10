@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 50px auto; background: #ffffff; padding: 40px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);">
+    <h2 style="text-align:center; font-size: 24px; color: #123456; margin-bottom: 30px;">Post a Job</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; font-weight: 600; margin-bottom: 6px;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: #777;">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <div style="color: red; font-size: 13px;">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" style="margin-top: 10px; width: 100%; background-color: #007a7a; color: white; padding: 12px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer;">
+            Submit Job
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="job-listings">
+    <h2 style="text-align:center;">Search Results for "{{ query }}"</h2>
+
+    {% for user in results %}
+    <div class="job-card">
+        <h3><a href="{% url 'profile' user.username %}">{{ user.username }}</a></h3>
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%;">
+        {% else %}
+            <p>No profile picture</p>
+        {% endif %}
+        <p>Email: {{ user.email }}</p>
+    </div>
+    {% empty %}
+    <p style="text-align:center;">No users found matching "{{ query }}".</p>
+    {% endfor %}
+</div>
+{% endblock %}

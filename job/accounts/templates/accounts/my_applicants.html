@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: auto;">
+    <h2>Applicants to Your Jobs</h2>
+    {% for job in jobs %}
+        <div class="job-card">
+            <h3>{{ job.job_title }} at {{ job.company_name }}</h3>
+            {% if job.applications.all %}
+                <ul>
+                {% for app in job.applications.all %}
+                    <li>
+                        <strong>{{ app.applicant.username }}</strong> applied at {{ app.applied_at|date:"F j, Y, g:i a" }}<br>
+                        <strong>Message:</strong> {{ app.message|linebreaks }}<br>
+                        {% if app.resume %}
+                            <a href="{{ app.resume.url }}" target="_blank">📄 Download Resume</a>
+                        {% else %}
+                            No resume uploaded.
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No applicants yet.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

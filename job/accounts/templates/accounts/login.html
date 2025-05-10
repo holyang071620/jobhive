@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | JobHive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #54daa2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 24px;
+            color: #123456;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #289cbc;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .social-login {
+            margin-top: 24px;
+        }
+
+        .social-login a {
+            display: block;
+            margin: 6px 0;
+            color: #444;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .social-login a:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to JobHive</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="social-login">
+            <p>Or login with:</p>
+            <a href="{% url 'social:begin' 'google-oauth2' %}">🔵 Google</a>
+            <a href="{% url 'social:begin' 'github' %}">⚫ GitHub</a>
+        </div>
+    </div>
+</body>
+</html>
+
+

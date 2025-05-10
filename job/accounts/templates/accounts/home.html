@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<section class="welcome-section" style="text-align: center; margin-top: 60px;">
+    <h1 style="font-size: 36px; color: #0a3d62;">Welcome to Job Hive</h1>
+    <p style="font-size: 18px; margin-bottom: 20px;">Find and post jobs easily.</p>
+
+    <form method="get" action="{% url 'home' %}">
+        <div class="search-container" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+            <input type="text" name="search" placeholder="Search job title..." value="{{ request.GET.search }}">
+            <input type="text" name="location" placeholder="Location..." value="{{ request.GET.location }}">
+            <select name="experience">
+                <option value="">Experience</option>
+                <option value="entry" {% if request.GET.experience == 'entry' %}selected{% endif %}>Entry</option>
+                <option value="mid" {% if request.GET.experience == 'mid' %}selected{% endif %}>Mid</option>
+                <option value="senior" {% if request.GET.experience == 'senior' %}selected{% endif %}>Senior</option>
+            </select>
+            <button type="submit" style="background:#007bff; color:white; border:none; padding:10px 16px; border-radius:8px;">Search</button>
+        </div>
+    </form>
+</section>
+
+<section class="recommended-section" style="margin-top: 40px; text-align: center;">
+    <h2 style="color: #0a3d62;">Recommended for You</h2>
+    {% if recommended_jobs %}
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
+        {% for job in recommended_jobs %}
+        <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; width: 300px; text-align: left;">
+            <strong>{{ job.job_title }}</strong><br>
+            {{ job.company_name }}<br>
+            {{ job.location }}<br>
+            {{ job.get_employment_type_display }}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: #777;">No recommendations yet. Please update your profile with skills.</p>
+    {% endif %}
+</section>
+
+<section class="job-listings" style="margin-top: 40px; display: flex; flex-direction: column; align-items: center;">
+    {% for job in jobs %}
+    <div class="job-card" style="border: 1px solid #ddd; padding: 15px; margin: 10px; border-radius: 8px; width: 80%; max-width: 600px; background-color: #fff;">
+        <h3>{{ job.job_title }} at {{ job.company_name }}</h3>
+        <p><strong>Location:</strong> {{ job.location }}</p>
+        <p><strong>Type:</strong> {{ job.get_employment_type_display }}</p>
+        <p><strong>Experience:</strong> {{ job.get_experience_level_display }}</p>
+        <p>{{ job.description|linebreaks }}</p>
+        
+        <small style="color: #777; font-size: 13px;">
+            Posted by <a href="{% url 'profile' job.posted_by.username %}">{{ job.posted_by.username }}</a> | {{ job.posted_at }}<br>
+            <strong>{{ job.applications.count }} Applicant{% if job.applications.count != 1 %}s{% endif %}</strong>
+        </small>
+
+        {% if user == job.posted_by %}
+        <form action="{% url 'delete_job' job.id %}" method="post" style="margin-top:10px;">
+            {% csrf_token %}
+            <button type="submit" style="background:#dc3545; color:white; border:none; padding:8px 12px; border-radius:6px;">Delete</button>
+        </form>
+        {% else %}
+        {% with application_forms|dictkey:job.id as form %}
+        <form action="{% url 'apply_job' job.id %}" method="post" enctype="multipart/form-data" style="margin-top:10px;">
+            {% csrf_token %}
+            <div style="margin-bottom: 8px;">
+                <label style="font-weight: 600; color: #123456;">Message:</label><br>
+                {{ form.message }}
+            </div>
+            <div style="margin-bottom: 8px;">
+                <label style="font-weight: 600; color: #123456;">Resume:</label>
+                <input type="file" name="resume">
+            </div>
+            <button type="submit" style="background:#007bff; color:white; border:none; padding:8px 16px; border-radius:6px;">Apply Now</button>
+        </form>
+        {% endwith %}
+        {% endif %}
+    </div>
+    {% empty %}
+    <p style="text-align:center;">No jobs found.</p>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="job-card" style="max-width: 500px; margin: auto;">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        {{ picture_form.as_p }}
+        <label>Skills:</label>
+        {{ skills_form.skills }}
+        <button type="submit" style="margin-top: 10px; background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px;">Save Changes</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h4>Preview:</h4>
+        {% if user.profile_picture %}
+            <img id="preview" src="{{ user.profile_picture.url }}" alt="Profile Picture"
+                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+        {% else %}
+            <img id="preview" src="{% static 'images/default-profile.png' %}" alt="Default Picture"
+                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ccc;">
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const pictureInput = document.querySelector('input[type="file"]');
+    const preview = document.getElementById('preview');
+
+    if (pictureInput) {
+        pictureInput.addEventListener('change', function(){
+            const file = this.files[0];
+            if (file){
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+{% endblock %}
