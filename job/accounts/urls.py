@@ -10,5 +10,4 @@ urlpatterns = [
     path('all/', views.all_jobs, name='all_jobs'),
     path('search-users/', views.search_users, name='search_users'),
     path('my-applicants/', views.my_applicants, name='my_applicants'),
-
 ]
