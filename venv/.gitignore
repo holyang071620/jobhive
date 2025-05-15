@@ -1,0 +1,11 @@
+# Python bytecode
+*.pyc
+__pycache__/
+
+# Environment variables
+.env
+git rm -r --cached venv
+
+# SQLite database file
+db.sqlite3
+venv/
