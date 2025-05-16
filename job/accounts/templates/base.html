@@ -163,6 +163,7 @@
                 <button style="background:#28a745; color:white; padding:8px 16px; border:none; border-radius:6px;">Post a Job</button>
             </a>
             <button class="toggle-theme" onclick="toggleTheme()">🌙</button>
+<<<<<<< HEAD
             
             {% if user.is_authenticated %}
                 <div class="dropdown" id="userDropdown">
@@ -171,6 +172,14 @@
                         {% if user.username %}
                             <a href="{% url 'profile' user.username %}">My Profile</a>
                         {% endif %}
+=======
+
+            {% if user.is_authenticated and user.username %}
+                <div class="dropdown" id="userDropdown">
+                    <button class="dropdown-btn" onclick="toggleDropdown()">👤 {{ user.username }}</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'profile' user.username %}">My Profile</a>
+>>>>>>> fix-profile-url
                         <a href="{% url 'edit_profile' %}">Edit Profile</a>
                         <a href="{% url 'logout' %}">Logout</a>
                         <a href="{% url 'my_applicants' %}">My Applicants</a>
