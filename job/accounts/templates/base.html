@@ -163,8 +163,8 @@
                 <button style="background:#28a745; color:white; padding:8px 16px; border:none; border-radius:6px;">Post a Job</button>
             </a>
             <button class="toggle-theme" onclick="toggleTheme()">🌙</button>
-            
-            {% if user.is_authenticated %}
+
+            {% if user.is_authenticated and user.username %}
                 <div class="dropdown" id="userDropdown">
                     <button class="dropdown-btn" onclick="toggleDropdown()">👤 {{ user.username }}</button>
                     <div class="dropdown-content">
