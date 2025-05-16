@@ -168,7 +168,9 @@
                 <div class="dropdown" id="userDropdown">
                     <button class="dropdown-btn" onclick="toggleDropdown()">👤 {{ user.username }}</button>
                     <div class="dropdown-content">
-                        <a href="{% url 'profile' user.username %}">My Profile</a>
+                        {% if user.username %}
+                            <a href="{% url 'profile' user.username %}">My Profile</a>
+                        {% endif %}
                         <a href="{% url 'edit_profile' %}">Edit Profile</a>
                         <a href="{% url 'logout' %}">Logout</a>
                         <a href="{% url 'my_applicants' %}">My Applicants</a>
